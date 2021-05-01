@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: AWS SNS
-        uses: nothingalike/sns-publish-topic@v1.7
+        uses: nothingalike/sns-publish-topic@v1.6
         if: github.event_name == 'pull_request'
         with:
           MESSAGE: "PR for prod raised, please approve"
