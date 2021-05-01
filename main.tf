@@ -59,6 +59,16 @@ resource "aws_instance" "web" {
   }
 }
 
+resource "aws_s3_bucket" "b" {
+  bucket = "my-tf-test-bucket"
+  acl    = "private"
+
+  tags = {
+    Name        = "My TF bucket"
+    Environment = "Dev"
+  }
+}
+
 resource "aws_security_group" "web-sg" {
   name = "${random_pet.sg.id}-sg"
   ingress {
