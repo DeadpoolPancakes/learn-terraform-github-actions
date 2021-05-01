@@ -13,16 +13,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        
-      - name: AWS SNS - Publish Topic w/ SessionToken
-        uses: smurphnturf/publish-sns-topic@1.2-beta
-        with:
-          MESSAGE: "PR for prod raised, please approve"
-          TOPIC_ARN: "arn:aws:sns:eu-west-2:915501751518:prod-release:38db38a2-c61d-4d3c-9bc4-36bc728be997"
-        env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -43,6 +33,17 @@ jobs:
         if: github.event_name == 'pull_request'
         run: terraform plan -no-color
         continue-on-error: true
+
+      - name: AWS SNS - Publish Topic w/ SessionToken
+        uses: smurphnturf/publish-sns-topic@1.2-beta
+        if: github.event_name == 'pull_request'
+        with:
+          MESSAGE: "PR for prod raised, please approve"
+          TOPIC_ARN: "arn:aws:sns:eu-west-2:915501751518:prod-release:38db38a2-c61d-4d3c-9bc4-36bc728be997"
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
