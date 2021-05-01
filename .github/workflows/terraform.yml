@@ -35,7 +35,7 @@ jobs:
         continue-on-error: true
 
       - name: AWS SNS - Publish Topic w/ SessionToken
-        uses: smurphnturf/publish-sns-topic@1.2-beta
+        uses: smurphnturf/publish-sns-topic@1.7
         if: github.event_name == 'pull_request'
         with:
           MESSAGE: "PR for prod raised, please approve"
