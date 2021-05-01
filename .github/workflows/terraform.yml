@@ -13,9 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Publish SNS Topic
-        uses: nothingalike/sns-publish-topic@v1.6
+      - name: AWS SNS - Publish Topic w/ SessionToken
+        uses: smurphnturf/publish-sns-topic@1.2-beta
         with:
           MESSAGE: "PR for prod raised, please approve"
           TOPIC_ARN: "arn:aws:sns:eu-west-2:915501751518:prod-release:38db38a2-c61d-4d3c-9bc4-36bc728be997"
